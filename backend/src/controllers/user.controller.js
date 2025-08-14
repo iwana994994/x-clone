@@ -1,6 +1,6 @@
 import { clerkClient } from '@clerk/clerk-sdk-node';
 import User from '../models/user.model.js';
-
+import mongoose from 'mongoose';
 import { connectDB } from '../config/db.js';
 export const userSync = async (req, res) => {
     console.log('userSync route hit', req.auth);
