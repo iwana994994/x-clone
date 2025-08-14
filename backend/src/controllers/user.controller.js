@@ -9,29 +9,28 @@ export const userSync = async (req, res) => {
    
 
     try {
-        const { userId } = req.auth; // dohvat iz Clerk middleware-a
-        if (!userId) {
-            return res.status(401).json({ message: 'Unauthorized: No user ID found' });
-        }
+       const { userId } = getAuth(req);
 
-        const user = await clerkClient.users.getUser(userId);
-        console.log('Fetched user from Clerk:', user);
+  // check if user already exists in mongodb
+  const existingUser = await User.findOne({ clerkId: userId });
+  if (existingUser) {
+    return res.status(200).json({ user: existingUser, message: "User already exists" });
+  }
+const clerkUser = await clerkClient.users.getUser(userId);
 
-        if (!user) {
-            return res.status(404).json({ message: 'User not found' });
-        }
-            await User.create({
-  clerkId: user.id,
-  email: user.emailAddresses?.[0]?.emailAddress || "no-email@example.com",
-  name: user.firstName && user.lastName ? `${user.firstName} ${user.lastName}` : "No Name",
-  imageUrl: user.imageUrl || "",
-  username: user.username || `user_${user.id.slice(0, 6)}`,
-               });
 
-        console.log('User created in local database:', user.id);
+            const userData = {
+  clerkId: userId,
+    email: clerkUser.emailAddresses[0].emailAddress || "no-email@example.com",
+  name: clerkUser.firstName && clerkUser.lastName ? `${clerkUser.firstName} ${clerkUser.lastName}` : "No Name",
+  imageUrl: clerkUser.imageUrl || "",
+  username: clerkUser.username || `user_${clerkUser.id.slice(0, 6)}`,
+               };
 
-        console.log('  ❤   User synced successfully:', user.id);
-        res.status(200).json(user);
+        console.log('User created in local database:', clerkUser.id);
+
+        console.log('  ❤   User synced successfully:', clerkUser.id);
+        res.status(200).json(clerkUser);
 
     } catch (error) {
         console.error('Error in userSync:', error);
