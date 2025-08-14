@@ -1,6 +1,8 @@
 import { clerkClient } from '@clerk/clerk-sdk-node';
 import User from '../models/user.model.js';
 import { connectDB } from '../config/db.js';
+import { getAuth } from '@clerk/express';
+
 
 export const userSync = async (req, res) => {
     console.log('userSync route hit', req.auth);
