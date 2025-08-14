@@ -5,7 +5,7 @@ export const userSync = async (req, res) => {
     console.log('userSync route hit', req.auth);
   
       console.log('Connecting to MongoDB...');
-      console.log("Connected to:", mongoose.connection.name, mongoose.connection.host);
+   
 
     try {
         const { userId } = req.auth; // dohvat iz Clerk middleware-a
