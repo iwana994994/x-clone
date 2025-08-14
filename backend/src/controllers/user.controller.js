@@ -8,7 +8,7 @@ export const userSync = async (req, res) => {
       console.log('Connecting to MongoDB...');
    
 
-    try {
+   
        const { userId } = getAuth(req);
 
   // check if user already exists in mongodb
@@ -19,21 +19,16 @@ export const userSync = async (req, res) => {
 const clerkUser = await clerkClient.users.getUser(userId);
 
 
-            const userData = {
-  clerkId: userId,
-    email: clerkUser.emailAddresses[0].emailAddress || "no-email@example.com",
-  name: clerkUser.firstName && clerkUser.lastName ? `${clerkUser.firstName} ${clerkUser.lastName}` : "No Name",
-  imageUrl: clerkUser.imageUrl || "",
-  username: clerkUser.username || `user_${clerkUser.id.slice(0, 6)}`,
-               };
+           const userData = {
+    clerkId: userId,
+    email: clerkUser.emailAddresses[0].emailAddress,
+    firstName: clerkUser.firstName || "",
+    lastName: clerkUser.lastName || "",
+    username: clerkUser.emailAddresses[0].emailAddress.split("@")[0],
+    profilePicture: clerkUser.imageUrl || "",
+  };
 
-        console.log('User created in local database:', clerkUser.id);
+  const user = await User.create(userData);
 
-        console.log('  ❤   User synced successfully:', clerkUser.id);
-        res.status(200).json(clerkUser);
-
-    } catch (error) {
-        console.error('Error in userSync:', error);
-        res.status(500).json({ message: 'Server error', error: error.message });
-    }
-};
+  res.status(201).json({ user, message: "User created successfully" });
+}
