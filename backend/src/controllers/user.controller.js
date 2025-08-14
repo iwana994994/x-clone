@@ -1,9 +1,10 @@
 import { clerkClient } from '@clerk/clerk-sdk-node';
 import User from '../models/user.model.js';
+import { connectDB } from '../config/db.js';
 
 export const userSync = async (req, res) => {
     console.log('userSync route hit', req.auth);
-  
+  await connectDB();  // Ensure the database is connected before proceeding
       console.log('Connecting to MongoDB...');
    
 
@@ -29,7 +30,7 @@ export const userSync = async (req, res) => {
 
         console.log('User created in local database:', user.id);
 
-        console.log('User synced successfully:', user.id);
+        console.log('  ❤   User synced successfully:', user.id);
         res.status(200).json(user);
 
     } catch (error) {
