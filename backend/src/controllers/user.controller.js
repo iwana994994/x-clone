@@ -35,11 +35,11 @@ const clerkUser = await clerkClient.users.getUser(userId);
   res.status(201).json({ user, message: "User created successfully" });
 }
 
-export const getCurrentUser = asyncHandler(async (req, res) => {
+export const getCurrentUser = async (req, res) => {
   const { userId } = getAuth(req);
   const user = await User.findOne({ clerkId: userId });
 
   if (!user) return res.status(404).json({ error: "User not found" });
 
   res.status(200).json({ user });
-});
+};
