@@ -51,6 +51,7 @@ export const getPost = async (req, res) => {
   res.status(200).json({ post });
 };
 export const getPosts = async (req, res) => {
+    await connectDB();
   const posts = await Post.find()
     .sort({ createdAt: -1 })
     .populate("user", "username firstName lastName profilePicture");
