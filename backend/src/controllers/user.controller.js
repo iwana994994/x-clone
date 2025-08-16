@@ -36,6 +36,10 @@ const clerkUser = await clerkClient.users.getUser(userId);
 }
 
 export const getCurrentUser = async (req, res) => {
+console.log('user.controller loaded');
+console.log('getCurrentUser is', typeof getCurrentUser);
+
+  await connectDB();  // Ensure the database is connected before proceeding
   const { userId } = getAuth(req);
   const user = await User.findOne({ clerkId: userId });
 
