@@ -5,14 +5,14 @@ import {connectDB} from './config/db.js';
 import userRoutes from './routes/user.route.js';
 import postRoutes from './routes/post.route.js';
 
-import { clerkMiddleware } from '@clerk/express'
+import { clerkExpressWithAuth } from '@clerk/express';
 
 dotenv.config();
 const app = express();
 
 app.use(express.json());
 app.use(cors());
-app.use(clerkMiddleware())
+app.use(clerkExpressWithAuth()); // <-- 
 
 app.get('/', (req, res) => {
   res.send('Hello World!');

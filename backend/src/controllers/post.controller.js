@@ -1,5 +1,6 @@
 import Post from "../models/post.model.js";
 import User from "../models/user.model.js";
+import { getAuth } from "@clerk/express";
 export const createPost = async (req, res) => {
   try {
     const { userId } = getAuth(req);
