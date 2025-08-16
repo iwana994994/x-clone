@@ -34,7 +34,7 @@ export const getUserPosts = async (req, res) => {
 
   const posts = await Post.find({ user: user._id })
     .sort({ createdAt: -1 })
-    .populate("user", "username firstName lastName profilePicture")
+    
     
     };
 
@@ -43,14 +43,7 @@ export const getPost = async (req, res) => {
 
   const post = await Post.findById(postId)
     .populate("user", "username firstName lastName profilePicture")
-    .populate({
-      path: "comments",
-      populate: {
-        path: "user",
-        select: "username firstName lastName profilePicture",
-      },
-    });
-
+    
   if (!post) return res.status(404).json({ error: "Post not found" });
 
   res.status(200).json({ post });
