@@ -7,4 +7,4 @@ const route= express.Router();
 route.post("/sync",requireAuth(),userSync)
 route.get("/me", getCurrentUser);
 
-export default route;``
+export default route;
