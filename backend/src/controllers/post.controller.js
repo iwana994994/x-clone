@@ -27,6 +27,7 @@ export const createPost = async (req, res) => {
   }
 };
 export const getUserPosts = async (req, res) => {
+    await connectDB();
   const { username } = req.params;
 
   const user = await User.findOne({ username });
