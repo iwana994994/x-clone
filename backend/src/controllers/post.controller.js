@@ -39,11 +39,12 @@ export const getUserPosts = async (req, res) => {
     };
 
 export const getPost = async (req, res) => {
+    await connectDB();
   const { postId } = req.params;
 
   const post = await Post.findById(postId)
     .populate("user", "username firstName lastName profilePicture")
-    
+
   if (!post) return res.status(404).json({ error: "Post not found" });
 
   res.status(200).json({ post });
