@@ -5,6 +5,6 @@ import { requireAuth } from '@clerk/express';
 const route= express.Router();
 
 route.post("/sync",requireAuth(),userSync)
-router.get("/me",requireAuth(), getCurrentUser);
+route.get("/me",requireAuth(), getCurrentUser);
 
-export default route;
+export default route;``
