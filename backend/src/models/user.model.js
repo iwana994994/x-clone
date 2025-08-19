@@ -24,36 +24,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
-    },
-    profilePicture: {
-      type: String,
-      default: "",
-    },
-    bannerImage: {
-      type: String,
-      default: "",
-    },
-    bio: {
-      type: String,
-      default: "",
-      maxLength: 160,
-    },
-    location: {
-      type: String,
-      default: "",
-    },
-    followers: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-      },
-    ],
-    following: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-      },
-    ],
+    }
   },
   { timestamps: true }
 );
